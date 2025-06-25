@@ -1,0 +1,309 @@
+
+import { useState } from "react";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Image, Video, Wand2, Download, Heart, Share2, Sparkles, Coins } from "lucide-react";
+import { toast } from "sonner";
+
+const AIGeneration = () => {
+  const [prompt, setPrompt] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("image");
+
+  const handleGenerate = async () => {
+    if (!prompt.trim()) {
+      toast.error("Please enter a prompt to generate content");
+      return;
+    }
+
+    setIsGenerating(true);
+    
+    // Simulate AI generation with placeholder images
+    setTimeout(() => {
+      const placeholderImages = [
+        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=512&h=512&fit=crop",
+        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=512&h=512&fit=crop",
+        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=512&h=512&fit=crop",
+        "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=512&h=512&fit=crop"
+      ];
+      
+      setGeneratedImages(placeholderImages);
+      setIsGenerating(false);
+      toast.success("AI content generated successfully! ✨");
+    }, 3000);
+  };
+
+  const handleMintNFT = (imageUrl: string) => {
+    toast.success("NFT minting initiated! This will be available after connecting your TON wallet.");
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <section className="pt-24 pb-16 bg-gradient-to-br from-background to-accent/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center mb-6">
+              <Badge className="bg-gradient-to-r from-tonix-blue to-tonix-cyan text-white px-4 py-2">
+                <Sparkles className="w-4 h-4 mr-2" />
+                AI-Powered Creation Studio
+              </Badge>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-space font-bold mb-6">
+              Create <span className="gradient-text">Stunning Visuals</span> with AI
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Transform your ideas into beautiful images and videos using cutting-edge AI technology. 
+              Earn points, create content, and mint NFTs on the TON blockchain.
+            </p>
+          </div>
+
+          {/* Points Display */}
+          <div className="flex justify-center mb-8">
+            <Card className="bg-gradient-to-r from-tonix-blue/10 to-tonix-cyan/10 border-tonix-blue/20">
+              <CardContent className="flex items-center space-x-4 py-4 px-6">
+                <Coins className="w-6 h-6 text-tonix-blue" />
+                <div>
+                  <div className="text-2xl font-bold text-tonix-blue">1,250</div>
+                  <div className="text-sm text-muted-foreground">Available Points</div>
+                </div>
+                <Badge variant="outline" className="border-tonix-cyan text-tonix-cyan">
+                  Earn more in Telegram
+                </Badge>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Generation Interface */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Controls Panel */}
+            <div className="lg:col-span-1">
+              <Card className="sticky top-24">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Wand2 className="w-5 h-5 mr-2 text-tonix-blue" />
+                    Creation Studio
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <Tabs value={activeTab} onValueChange={setActiveTab}>
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="image" className="flex items-center">
+                        <Image className="w-4 h-4 mr-2" />
+                        Image
+                      </TabsTrigger>
+                      <TabsTrigger value="video" className="flex items-center">
+                        <Video className="w-4 h-4 mr-2" />
+                        Video
+                      </TabsTrigger>
+                    </TabsList>
+
+                    <div className="space-y-4 mt-6">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Prompt</label>
+                        <Textarea
+                          placeholder="Describe what you want to create... (e.g., 'A futuristic city with flying cars at sunset')"
+                          value={prompt}
+                          onChange={(e) => setPrompt(e.target.value)}
+                          className="resize-none"
+                          rows={4}
+                        />
+                      </div>
+
+                      <TabsContent value="image" className="space-y-4 mt-0">
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Style</label>
+                          <Select defaultValue="photorealistic">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border border-border">
+                              <SelectItem value="photorealistic">Photorealistic</SelectItem>
+                              <SelectItem value="artistic">Artistic</SelectItem>
+                              <SelectItem value="anime">Anime</SelectItem>
+                              <SelectItem value="cartoon">Cartoon</SelectItem>
+                              <SelectItem value="oil-painting">Oil Painting</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Aspect Ratio</label>
+                          <Select defaultValue="1:1">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border border-border">
+                              <SelectItem value="1:1">Square (1:1)</SelectItem>
+                              <SelectItem value="16:9">Landscape (16:9)</SelectItem>
+                              <SelectItem value="9:16">Portrait (9:16)</SelectItem>
+                              <SelectItem value="4:3">Classic (4:3)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </TabsContent>
+
+                      <TabsContent value="video" className="space-y-4 mt-0">
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Duration</label>
+                          <Select defaultValue="3s">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border border-border">
+                              <SelectItem value="3s">3 seconds</SelectItem>
+                              <SelectItem value="5s">5 seconds</SelectItem>
+                              <SelectItem value="10s">10 seconds</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Motion</label>
+                          <Select defaultValue="medium">
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background border border-border">
+                              <SelectItem value="low">Low Motion</SelectItem>
+                              <SelectItem value="medium">Medium Motion</SelectItem>
+                              <SelectItem value="high">High Motion</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </TabsContent>
+
+                      <div className="pt-4 border-t border-border">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium">Cost</span>
+                          <span className="text-sm text-tonix-blue font-semibold">
+                            {activeTab === "image" ? "50 points" : "200 points"}
+                          </span>
+                        </div>
+                        <Button
+                          onClick={handleGenerate}
+                          disabled={isGenerating || !prompt.trim()}
+                          className="w-full bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white"
+                        >
+                          {isGenerating ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                              Generating...
+                            </>
+                          ) : (
+                            <>
+                              <Wand2 className="w-4 h-4 mr-2" />
+                              Generate {activeTab === "image" ? "Image" : "Video"}
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </Tabs>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Results Panel */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Generated Content</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {generatedImages.length === 0 && !isGenerating ? (
+                    <div className="text-center py-16">
+                      <div className="w-24 h-24 bg-gradient-to-r from-tonix-blue/20 to-tonix-cyan/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Sparkles className="w-12 h-12 text-tonix-blue" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">Ready to Create</h3>
+                      <p className="text-muted-foreground">
+                        Enter a prompt and click generate to create amazing AI content
+                      </p>
+                    </div>
+                  ) : isGenerating ? (
+                    <div className="text-center py-16">
+                      <div className="w-24 h-24 bg-gradient-to-r from-tonix-blue/20 to-tonix-cyan/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                        <Wand2 className="w-12 h-12 text-tonix-blue animate-spin" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">AI is Working Magic</h3>
+                      <p className="text-muted-foreground">
+                        Creating your {activeTab} with advanced AI models...
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {generatedImages.map((imageUrl, index) => (
+                        <Card key={index} className="group overflow-hidden">
+                          <div className="relative">
+                            <img
+                              src={imageUrl}
+                              alt={`Generated content ${index + 1}`}
+                              className="w-full h-64 object-cover transition-transform group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors">
+                              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Button size="sm" variant="secondary" className="mr-2">
+                                  <Heart className="w-4 h-4" />
+                                </Button>
+                                <Button size="sm" variant="secondary">
+                                  <Share2 className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <Badge variant="outline" className="mb-2">
+                                  {prompt.substring(0, 30)}...
+                                </Badge>
+                                <p className="text-sm text-muted-foreground">
+                                  Generated {new Date().toLocaleDateString()}
+                                </p>
+                              </div>
+                              <div className="flex space-x-2">
+                                <Button size="sm" variant="outline">
+                                  <Download className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white"
+                                  onClick={() => handleMintNFT(imageUrl)}
+                                >
+                                  Mint NFT
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default AIGeneration;
