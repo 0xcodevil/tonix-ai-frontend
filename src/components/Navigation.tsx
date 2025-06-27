@@ -1,15 +1,15 @@
-
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Zap, Image, Gamepad2 } from "lucide-react";
+import { Menu, X, Home, Image } from "lucide-react";
+import { LoginButton } from "@telegram-auth/react";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
-    { name: "Home", path: "/", icon: Zap },
+    { name: "Home", path: "/", icon: Home },
     { name: "AI Generation", path: "/ai-generation", icon: Image },
   ];
 
@@ -46,6 +46,14 @@ const Navigation = () => {
             <Button className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
               Launch App
             </Button>
+            <LoginButton
+              botUsername="tonix_ai_bot"
+              authCallbackUrl="/path/to/callback/url"
+              buttonSize="large"
+              cornerRadius={20}
+              showAvatar={true}
+              lang="en"
+            />
           </div>
 
           {/* Mobile menu button */}
