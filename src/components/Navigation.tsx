@@ -47,7 +47,7 @@ const Navigation = () => {
             </Button> */}
             <LoginButton
               botUsername="tonix_ai_bot"
-              authCallbackUrl="/path/to/callback/url"
+              authCallbackUrl="/api/v1/auth/login"
               buttonSize="large"
               cornerRadius={5}
               showAvatar={true}
