@@ -3,7 +3,7 @@ import { useState } from "react";
 import API from "@/lib/api";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
+import { Button, AButton } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -97,7 +97,7 @@ const AIGeneration = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <Tabs value={activeTab} onValueChange={setActiveTab}>
+                  <Tabs value={activeTab} onValueChange={() => toast.info('Video generation feature is coming soon.')}>
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="image" className="flex items-center">
                         <Image className="w-4 h-4 mr-2" />
@@ -140,7 +140,7 @@ const AIGeneration = () => {
 
                         <div>
                           <label className="text-sm font-medium mb-2 block">Aspect Ratio</label>
-                          <Select value={ratio} onValueChange={r => setRatio(r)}>
+                          <Select value={ratio} onValueChange={setRatio}>
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
@@ -267,16 +267,16 @@ const AIGeneration = () => {
                             <div className="flex items-center justify-between">
                               <div>
                                 <Badge variant="outline" className="mb-2">
-                                  {prompt.substring(0, 30)}...
+                                  {prompt.substring(0, 25)}...
                                 </Badge>
                                 <p className="text-sm text-muted-foreground">
                                   Generated {new Date().toLocaleDateString()}
                                 </p>
                               </div>
                               <div className="flex space-x-2">
-                                <Button size="sm" variant="outline">
+                                <AButton size="sm" variant="outline" href={imageUrl} download>
                                   <Download className="w-4 h-4" />
-                                </Button>
+                                </AButton>
                                 <Button
                                   size="sm"
                                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white"

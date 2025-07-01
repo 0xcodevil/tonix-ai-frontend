@@ -48,4 +48,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+export interface AnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, VariantProps<typeof buttonVariants> { }
+
+const AButton = React.forwardRef<HTMLAnchorElement, AnchorProps>(
+  ({ className, variant, size, ...props }, ref) => {
+    return (
+      <a
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "AButton"
+
+export { Button, AButton, buttonVariants }
