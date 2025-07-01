@@ -1,9 +1,9 @@
 
 import { useState } from "react";
+import API from "@/lib/api";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,20 +25,16 @@ const AIGeneration = () => {
     }
 
     setIsGenerating(true);
-    
+
     // Simulate AI generation with placeholder images
-    setTimeout(() => {
-      const placeholderImages = [
-        "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=512&h=512&fit=crop",
-        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=512&h=512&fit=crop",
-        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=512&h=512&fit=crop",
-        "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=512&h=512&fit=crop"
-      ];
-      
-      setGeneratedImages(placeholderImages);
-      setIsGenerating(false);
+    API.post('/image/generate', { prompt }).then((res) => {
+      setGeneratedImages(res.data.images);
       toast.success("AI content generated successfully! ✨");
-    }, 3000);
+    }).catch((err) => {
+      toast.success("AI content generation failed.");
+    }).finally(() => {
+      setIsGenerating(false);
+    });
   };
 
   const handleMintNFT = (imageUrl: string) => {
@@ -48,7 +44,7 @@ const AIGeneration = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-br from-background to-accent/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,7 +59,7 @@ const AIGeneration = () => {
               Create <span className="gradient-text">Stunning Visuals</span> with AI
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Transform your ideas into beautiful images and videos using cutting-edge AI technology. 
+              Transform your ideas into beautiful images and videos using cutting-edge AI technology.
               Earn points, create content, and mint NFTs on the TON blockchain.
             </p>
           </div>
