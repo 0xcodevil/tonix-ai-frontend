@@ -14,6 +14,7 @@ import { toast } from "sonner";
 
 const AIGeneration = () => {
   const [prompt, setPrompt] = useState("");
+  const [ratio, setRatio] = useState("1024x1024");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("image");
@@ -27,7 +28,7 @@ const AIGeneration = () => {
     setIsGenerating(true);
 
     // Simulate AI generation with placeholder images
-    API.post('/image/generate', { prompt }).then((res) => {
+    API.post('/image/generate', { prompt, ratio }).then((res) => {
       setGeneratedImages(res.data.images);
       toast.success("AI content generated successfully! ✨");
     }).catch((err) => {
@@ -139,15 +140,15 @@ const AIGeneration = () => {
 
                         <div>
                           <label className="text-sm font-medium mb-2 block">Aspect Ratio</label>
-                          <Select defaultValue="1:1">
+                          <Select value={ratio} onValueChange={r => setRatio(r)}>
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="bg-background border border-border">
-                              <SelectItem value="1:1">Square (1:1)</SelectItem>
-                              <SelectItem value="16:9">Landscape (16:9)</SelectItem>
-                              <SelectItem value="9:16">Portrait (9:16)</SelectItem>
-                              <SelectItem value="4:3">Classic (4:3)</SelectItem>
+                              <SelectItem value="1024x1024">Square (1:1)</SelectItem>
+                              <SelectItem value="1536x1024">Landscape (16:9)</SelectItem>
+                              <SelectItem value="1024x1536">Portrait (9:16)</SelectItem>
+                              <SelectItem value="auto">Classic (4:3)</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
