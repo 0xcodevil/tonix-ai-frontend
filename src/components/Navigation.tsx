@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Home, Image } from "lucide-react";
+import { LoginButton } from '@telegram-auth/react';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,20 +32,27 @@ const Navigation = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === item.path
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === item.path
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.name}</span>
                 </Link>
               );
             })}
-            <Button className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
+            {/* <Button className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
               Launch App
-            </Button>
+            </Button> */}
+            <LoginButton
+              botUsername="tonix_ai_bot"
+              authCallbackUrl="/path/to/callback/url"
+              buttonSize="large"
+              cornerRadius={5}
+              showAvatar={true}
+              lang="en"
+            />
           </div>
 
           {/* Mobile menu button */}
@@ -69,11 +77,10 @@ const Navigation = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                      location.pathname === item.path
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium transition-colors ${location.pathname === item.path
                         ? "text-primary bg-primary/10"
                         : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                    }`}
+                      }`}
                     onClick={() => setIsOpen(false)}
                   >
                     <Icon className="w-4 h-4" />
