@@ -3,8 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/button";
 import { Menu, X, Home, Image } from "lucide-react";
 import { LoginButton } from '@telegram-auth/react';
+import { useAuth } from "@/contexts/AuthProvider";
 
 const Navigation = () => {
+  const user = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
@@ -45,14 +47,16 @@ const Navigation = () => {
               })}
             </div>
 
-            <LoginButton
-              botUsername="tonix_ai_bot"
-              authCallbackUrl="/api/v1/auth/login"
-              buttonSize="large"
-              cornerRadius={5}
-              showAvatar={true}
-              lang="en"
-            />
+            {user ?
+              <img src={user.telegram.photoUrl} alt="" className="w-10 h-10 rounded-full border border-slate-500" /> :
+              <LoginButton
+                botUsername="tonix_ai_bot"
+                authCallbackUrl="/api/v1/auth/login"
+                buttonSize="large"
+                cornerRadius={5}
+                showAvatar={false}
+                lang="en"
+              />}
 
             {/* Mobile menu button */}
             <div className="md:hidden">
