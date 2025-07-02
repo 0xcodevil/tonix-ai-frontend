@@ -1,7 +1,7 @@
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/card";
+import { Badge } from "@/components/badge";
+import { Button } from "@/components/button";
 import { Play, Image as ImageIcon, Sparkles } from "lucide-react";
 
 const ExamplesSection = () => {

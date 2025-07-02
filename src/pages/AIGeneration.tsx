@@ -1,14 +1,12 @@
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import API from "@/lib/api";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import { Button, AButton } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button, AButton } from "@/components/button";
+import { Textarea } from "@/components/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
+import { Badge } from "@/components/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
 import { Image, Video, Wand2, Download, Heart, Share2, Sparkles, Coins } from "lucide-react";
 import { toast } from "sonner";
 
@@ -43,8 +41,7 @@ const AIGeneration = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+    <Fragment>
 
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-br from-background to-accent/5">
@@ -297,9 +294,7 @@ const AIGeneration = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </Fragment>
   );
 };
 
