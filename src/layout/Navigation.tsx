@@ -1,19 +1,27 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/button";
 import { Menu, X, Home, Image } from "lucide-react";
 import { LoginButton } from '@telegram-auth/react';
 import { useAuth } from "@/contexts/AuthProvider";
+import { toast } from "sonner";
 
 const Navigation = () => {
   const user = useAuth();
+  const [params] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-
+  
   const navItems = [
     { name: "Home", path: "/", icon: Home },
     { name: "AI Generation", path: "/ai-generation", icon: Image },
   ];
+  
+  useEffect(() => {
+    const login = params.get('login');
+    if (login === 'success' && user) toast.success(`Welcome, ${user.telegram.firstName}! 🎉`);
+    else if (login === 'failed') toast.error('Failed to login.');
+  }, [params, user]);
 
   return (
     <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">

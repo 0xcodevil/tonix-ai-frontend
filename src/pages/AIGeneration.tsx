@@ -9,8 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
 import { Image, Video, Wand2, Download, Heart, Share2, Sparkles, Coins } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthProvider";
 
 const AIGeneration = () => {
+  const user = useAuth();
   const [prompt, setPrompt] = useState("");
   const [ratio, setRatio] = useState("1024x1024");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -20,6 +22,11 @@ const AIGeneration = () => {
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       toast.error("Please enter a prompt to generate content");
+      return;
+    }
+
+    if (!user) {
+      toast.error("Please login to generate");
       return;
     }
 
@@ -63,12 +70,12 @@ const AIGeneration = () => {
           </div>
 
           {/* Points Display */}
-          <div className="flex justify-center mb-8">
+          {user && <div className="flex justify-center mb-8">
             <Card className="bg-gradient-to-r from-tonix-blue/10 to-tonix-cyan/10 border-tonix-blue/20">
               <CardContent className="flex items-center space-x-4 py-4 px-6">
                 <Coins className="w-6 h-6 text-tonix-blue" />
                 <div>
-                  <div className="text-2xl font-bold text-tonix-blue">1,250</div>
+                  <div className="text-2xl font-bold text-tonix-blue">{user.coin.toLocaleString()}</div>
                   <div className="text-sm text-muted-foreground">Available Points</div>
                 </div>
                 <Badge variant="outline" className="border-tonix-cyan text-tonix-cyan">
@@ -76,7 +83,7 @@ const AIGeneration = () => {
                 </Badge>
               </CardContent>
             </Card>
-          </div>
+          </div>}
         </div>
       </section>
 
