@@ -12,19 +12,24 @@ type User = {
   coin: number;
 } | null;
 
-const AuthContext = createContext<User>(null);
+const AuthContext = createContext<{
+  user: User;
+  refresh: () => void;
+}>(null);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>(null);
 
-  useEffect(() => {
+  const refresh = () => {
     API.get('/user/me').then((res) => {
       setUser(res.data);
     }).catch(_err => { });
-  }, []);
+  }
+
+  useEffect(refresh, []);
 
   return (
-    <AuthContext.Provider value={user}>
+    <AuthContext.Provider value={{user, refresh}}>
       {children}
     </AuthContext.Provider>
   )

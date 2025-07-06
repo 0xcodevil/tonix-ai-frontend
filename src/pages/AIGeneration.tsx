@@ -13,7 +13,7 @@ import { useAuth } from "@/contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const AIGeneration = () => {
-  const user = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const [ratio, setRatio] = useState("1024x1024");

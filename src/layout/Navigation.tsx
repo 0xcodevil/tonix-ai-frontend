@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthProvider";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/tooltip";
 
 const Navigation = () => {
-  const user = useAuth();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 

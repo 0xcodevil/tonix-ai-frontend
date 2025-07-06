@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { LoginButton } from "@telegram-auth/react";
 import { GoogleLogin } from '@react-oauth/google';
 import API from "@/lib/api";
+import { useAuth } from "@/contexts/AuthProvider";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { refresh } = useAuth();
 
   const telegramAuth = (credential) => {
     API.post('/auth/telegram', credential).then((res) => {
+      refresh();
       navigate('/');
       toast.success('Welcome back!');
     }).catch(err => toast.error(err.message));
@@ -16,6 +19,7 @@ const Auth = () => {
 
   const googleAuth = (credential) => {
     API.post('/auth/google', credential).then((res) => {
+      refresh();
       navigate('/');
       toast.success('Welcome back!');
     }).catch(err => toast.error(err.message));
@@ -33,7 +37,7 @@ const Auth = () => {
         <LoginButton
           botUsername={import.meta.env.VITE_BOT_USERNAME}
           onAuthCallback={telegramAuth}
-          buttonSize="medium"
+          buttonSize="large"
           cornerRadius={5}
           showAvatar={false}
           lang="en"
