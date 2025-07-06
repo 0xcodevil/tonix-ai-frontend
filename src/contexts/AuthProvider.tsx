@@ -1,5 +1,6 @@
 import API from "@/lib/api";
 import { createContext, useContext, useEffect, useState } from "react";
+import { googleLogout } from "@react-oauth/google";
 
 type User = {
   firstName: string;
@@ -15,6 +16,7 @@ type User = {
 const AuthContext = createContext<{
   user: User;
   refresh: () => void;
+  logout: () => void;
 }>(null);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -23,13 +25,22 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const refresh = () => {
     API.get('/user/me').then((res) => {
       setUser(res.data);
-    }).catch(_err => { });
+    }).catch(() => {
+      setUser(null);
+    });
+  }
+
+  const logout = () => {
+    API.post('/auth/logout').then((_res) => {
+      googleLogout();
+      refresh();
+    }).catch(console.error);
   }
 
   useEffect(refresh, []);
 
   return (
-    <AuthContext.Provider value={{user, refresh}}>
+    <AuthContext.Provider value={{ user, refresh, logout }}>
       {children}
     </AuthContext.Provider>
   )

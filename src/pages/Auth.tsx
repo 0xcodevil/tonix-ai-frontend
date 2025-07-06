@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginButton } from "@telegram-auth/react";
 import { GoogleLogin } from '@react-oauth/google';
@@ -7,12 +8,11 @@ import { useAuth } from "@/contexts/AuthProvider";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { refresh } = useAuth();
+  const { user, refresh } = useAuth();
 
   const telegramAuth = (credential) => {
     API.post('/auth/telegram', credential).then((res) => {
       refresh();
-      navigate('/');
       toast.success('Welcome back!');
     }).catch(err => toast.error(err.message));
   }
@@ -20,10 +20,13 @@ const Auth = () => {
   const googleAuth = (credential) => {
     API.post('/auth/google', credential).then((res) => {
       refresh();
-      navigate('/');
       toast.success('Welcome back!');
     }).catch(err => toast.error(err.message));
   }
+
+  useEffect(() => {
+    if (user) navigate('/');
+  }, [user]);
 
   return (
     <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 flex-1 flex justify-center items-center">

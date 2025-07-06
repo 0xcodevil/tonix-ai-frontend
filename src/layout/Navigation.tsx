@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { AButton, Button } from "@/components/button";
-import { Menu, X, Home, Image } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@/components/button";
+import { Menu, X, Home, Image, User } from "lucide-react";
 import { useAuth } from "@/contexts/AuthProvider";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/tooltip";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuPortal, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/dropdown-menu";
+import { LogOut } from "lucide-react";
 
 const Navigation = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
@@ -46,17 +48,30 @@ const Navigation = () => {
                 );
               })}
 
-              <AButton href="/ai-generation" className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
-                Launch App
-              </AButton>
+              {!user && <Button onClick={() => navigate('/auth')} className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
+                Log In
+              </Button>}
 
             </div>
-            {user && <Tooltip>
-              <TooltipTrigger>
+            {user && <DropdownMenu>
+              <DropdownMenuTrigger>
                 <img src={user.avatar} alt="" className="w-10 h-10 rounded-full border border-slate-500" />
-              </TooltipTrigger>
-              <TooltipContent>{user.firstName + (user.lastName ? ' ' + user.lastName : '')}</TooltipContent>
-            </Tooltip>}
+              </DropdownMenuTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuContent>
+                  <DropdownMenuItem disabled>{user.firstName + (user.lastName ? ' ' + user.lastName : '')}</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <span className="pr-10">Profile</span>
+                    <User size={16} />
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <span className="pr-10">Log out</span>
+                    <LogOut size={16} />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenuPortal>
+            </DropdownMenu>}
 
             {/* Mobile menu button */}
             <div className="md:hidden">
@@ -92,9 +107,9 @@ const Navigation = () => {
                   </Link>
                 );
               })}
-              <Button className="w-full mt-4 bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
-                Launch App
-              </Button>
+              {!user && <Button onClick={() => { navigate('/auth'); setIsOpen(false); }} className="w-full mt-4 bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
+                Log In
+              </Button>}
             </div>
           </div>
         )}

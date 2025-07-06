@@ -105,13 +105,13 @@ const AIGeneration = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <Tabs value={activeTab} onClick={() => toast.info('Video generation feature is coming soon.')}>
+                  <Tabs value={activeTab}>
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="image" className="flex items-center">
                         <Image className="w-4 h-4 mr-2" />
                         Image
                       </TabsTrigger>
-                      <TabsTrigger value="video" className="flex items-center">
+                      <TabsTrigger value="video" className="flex items-center" onClick={() => toast.info('Video generation feature is coming soon.')}>
                         <Video className="w-4 h-4 mr-2" />
                         Video
                       </TabsTrigger>
