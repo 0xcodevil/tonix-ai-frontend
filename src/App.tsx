@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./layout";
 import Index from "./pages/Index";
 import AIGeneration from "./pages/AIGeneration";
+import Upload from './pages/Upload';
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -21,6 +22,7 @@ const App = () => (
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Index />} />
               <Route path="/ai-generation" element={<AIGeneration />} />
+              <Route path="/upload" element={<Upload />} />
               <Route path="/auth" element={<Auth />} />
             </Route>
             <Route path="*" element={<NotFound />} />

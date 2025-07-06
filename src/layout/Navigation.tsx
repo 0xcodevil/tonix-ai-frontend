@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/button";
-import { Menu, X, Home, Image, User } from "lucide-react";
+import { Menu, X, Home, Image, User, Upload } from "lucide-react";
 import { useAuth } from "@/contexts/AuthProvider";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuPortal, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/dropdown-menu";
 import { LogOut } from "lucide-react";
@@ -15,6 +15,7 @@ const Navigation = () => {
   const navItems = [
     { name: "Home", path: "/", icon: Home },
     { name: "AI Generation", path: "/ai-generation", icon: Image },
+    { name: "Upload", path: "/upload", icon: Upload },
   ];
 
   return (
