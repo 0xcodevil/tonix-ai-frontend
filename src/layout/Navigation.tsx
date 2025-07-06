@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import { Button } from "@/components/button";
+import { AButton, Button } from "@/components/button";
 import { Menu, X, Home, Image } from "lucide-react";
 import { LoginButton } from '@telegram-auth/react';
 import { useAuth } from "@/contexts/AuthProvider";
@@ -53,18 +53,11 @@ const Navigation = () => {
                   </Link>
                 );
               })}
-            </div>
 
-            {user ?
-              <img src={user.telegram.photoUrl} alt="" className="w-10 h-10 rounded-full border border-slate-500" /> :
-              <LoginButton
-                botUsername="tonix_ai_bot"
-                authCallbackUrl="/api/v1/auth/login"
-                buttonSize="large"
-                cornerRadius={5}
-                showAvatar={false}
-                lang="en"
-              />}
+              <AButton href="/ai-generation" className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
+                Launch App
+              </AButton>
+            </div>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
