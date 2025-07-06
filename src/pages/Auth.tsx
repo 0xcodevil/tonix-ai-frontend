@@ -8,14 +8,14 @@ const Auth = () => {
   const navigate = useNavigate();
 
   const telegramAuth = (credential) => {
-    API.post('/api/v1/auth/telegram', credential).then((res) => {
+    API.post('/auth/telegram', credential).then((res) => {
       navigate('/');
       toast.success('Welcome back!');
     }).catch(err => toast.error(err.message));
   }
 
   const googleAuth = (credential) => {
-    API.post('/api/v1/auth/google', credential).then((res) => {
+    API.post('/auth/google', credential).then((res) => {
       navigate('/');
       toast.success('Welcome back!');
     }).catch(err => toast.error(err.message));
@@ -31,7 +31,7 @@ const Auth = () => {
           onError={() => toast.error('Login Failed')}
         />
         <LoginButton
-          botUsername="tonix_ai_bot"
+          botUsername={import.meta.env.VITE_BOT_USERNAME}
           onAuthCallback={telegramAuth}
           buttonSize="medium"
           cornerRadius={5}

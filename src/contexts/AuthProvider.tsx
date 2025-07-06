@@ -2,15 +2,13 @@ import API from "@/lib/api";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
-  telegram: {
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    isPremium: string;
-    isBot: string;
-    photoUrl: string;
-  },
+  firstName: string;
+  lastName?: string;
+  email?: string;
+  telegramId?: string;
+  avatar: string;
+  createdAt: string;
+  updatedAt: string;
   coin: number;
 } | null;
 

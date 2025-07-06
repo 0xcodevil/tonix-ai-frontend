@@ -10,9 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Image, Video, Wand2, Download, Heart, Share2, Sparkles, Coins } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const AIGeneration = () => {
   const user = useAuth();
+  const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const [ratio, setRatio] = useState("1024x1024");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -26,7 +28,9 @@ const AIGeneration = () => {
     }
 
     if (!user) {
-      toast.error("Please login to generate");
+      toast.error("Please login to generate", {
+        action: <span onClick={() => navigate('/auth')} className="cursor-pointer text-primary">Login</span>
+      });
       return;
     }
 
@@ -101,7 +105,7 @@ const AIGeneration = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <Tabs value={activeTab} onValueChange={() => toast.info('Video generation feature is coming soon.')}>
+                  <Tabs value={activeTab} onClick={() => toast.info('Video generation feature is coming soon.')}>
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="image" className="flex items-center">
                         <Image className="w-4 h-4 mr-2" />

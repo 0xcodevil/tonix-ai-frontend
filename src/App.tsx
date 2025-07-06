@@ -11,7 +11,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
-  <GoogleOAuthProvider clientId="174042476336-0plreetv1rbu7tct8njj542dltdu3ro3.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <AuthProvider>
       <TooltipProvider>
         <Toaster />

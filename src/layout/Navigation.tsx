@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { AButton, Button } from "@/components/button";
 import { Menu, X, Home, Image } from "lucide-react";
-import { LoginButton } from '@telegram-auth/react';
 import { useAuth } from "@/contexts/AuthProvider";
-import { toast } from "sonner";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/tooltip";
 
 const Navigation = () => {
   const user = useAuth();
-  const [params] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  
+
   const navItems = [
     { name: "Home", path: "/", icon: Home },
     { name: "AI Generation", path: "/ai-generation", icon: Image },
   ];
-  
-  useEffect(() => {
-    const login = params.get('login');
-    if (login === 'success' && user) toast.success(`Welcome, ${user.telegram.firstName}! 🎉`);
-    else if (login === 'failed') toast.error('Failed to login.');
-  }, [params, user]);
 
   return (
     <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
@@ -57,7 +49,14 @@ const Navigation = () => {
               <AButton href="/ai-generation" className="bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white">
                 Launch App
               </AButton>
+
             </div>
+            {user && <Tooltip>
+              <TooltipTrigger>
+                <img src={user.avatar} alt="" className="w-10 h-10 rounded-full border border-slate-500" />
+              </TooltipTrigger>
+              <TooltipContent>{user.firstName + (user.lastName ? ' ' + user.lastName : '')}</TooltipContent>
+            </Tooltip>}
 
             {/* Mobile menu button */}
             <div className="md:hidden">
