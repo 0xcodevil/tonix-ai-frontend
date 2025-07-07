@@ -30,11 +30,11 @@ const Auth = () => {
 
   return (
     <div className="lg:grid lg:grid-cols-2 min-h-screen relative">
-      <div className="absolute lg:static inset-0 blur-lg">
-        <video src="/videos/login.mp4" className="h-full object-cover" autoPlay muted controls={false} playsInline loop />
+      <div className="absolute lg:static inset-0 overflow-hidden">
+        <video src="/videos/login.mp4" className="h-full object-cover blur-lg lg:blur-0" autoPlay muted controls={false} playsInline loop />
       </div>
       <div className="relative lg:bg-gradient-to-b from-background to-muted/20 flex flex-col justify-center items-center gap-10 min-h-screen">
-        <div className="flex flex-col items-center">
+        <div onClick={() => navigate('/')} className="flex flex-col items-center">
           <img src="/imgs/logo.png" alt="" className="w-20 h-20" />
           <div className="font-bold text-3xl">Tonix AI</div>
         </div>
