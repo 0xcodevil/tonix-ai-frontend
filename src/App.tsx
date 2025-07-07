@@ -23,8 +23,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/ai-generation" element={<AIGeneration />} />
               <Route path="/upload" element={<Upload />} />
-              <Route path="/auth" element={<Auth />} />
             </Route>
+            <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
