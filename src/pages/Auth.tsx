@@ -34,7 +34,7 @@ const Auth = () => {
         <video src="/videos/login.mp4" className="h-full object-cover blur-lg lg:blur-0" autoPlay muted controls={false} playsInline loop />
       </div>
       <div className="relative lg:bg-gradient-to-b from-background to-muted/20 flex flex-col justify-center items-center gap-10 min-h-screen">
-        <div onClick={() => navigate('/')} className="flex flex-col items-center">
+        <div onClick={() => navigate('/')} className="flex flex-col items-center cursor-pointer">
           <img src="/imgs/logo.png" alt="" className="w-20 h-20" />
           <div className="font-bold text-3xl">Tonix AI</div>
         </div>

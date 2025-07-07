@@ -15,7 +15,6 @@ const Navigation = () => {
   const navItems = [
     { name: "Home", path: "/", icon: Home },
     { name: "AI Generation", path: "/ai-generation", icon: Image },
-    { name: "Upload", path: "/upload", icon: Upload },
   ];
 
   return (

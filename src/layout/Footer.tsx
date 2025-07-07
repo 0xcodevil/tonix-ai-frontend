@@ -43,7 +43,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Resources</h3>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="#" className="hover:text-tonix-cyan transition-colors">Whitepaper</a></li>
+              <li><a href="https://docs.google.com/document/d/1urCXwSK891xCoX3ft-N8i__XhO3czHJc8yH2mL5KKes/edit?tab=t.0" target="_blank" className="hover:text-tonix-cyan transition-colors">Whitepaper</a></li>
               <li><a href="#" className="hover:text-tonix-cyan transition-colors">Documentation</a></li>
               <li><a href="#" className="hover:text-tonix-cyan transition-colors">Community</a></li>
               <li><a href="#" className="hover:text-tonix-cyan transition-colors">Support</a></li>

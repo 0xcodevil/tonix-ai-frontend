@@ -6,7 +6,7 @@ import { CheckCircle, Clock, Calendar } from "lucide-react";
 const RoadmapSection = () => {
   const roadmapItems = [
     {
-      quarter: "Q2 2025",
+      quarter: "Q3 2025",
       status: "upcoming",
       icon: Clock,
       title: "Foundation Launch",
@@ -18,7 +18,7 @@ const RoadmapSection = () => {
       ]
     },
     {
-      quarter: "Q3 2025",
+      quarter: "Q4 2025",
       status: "upcoming",
       icon: Calendar,
       title: "Platform Expansion",

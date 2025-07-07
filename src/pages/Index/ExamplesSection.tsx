@@ -1,10 +1,12 @@
-
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/card";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { Play, Image as ImageIcon, Sparkles } from "lucide-react";
 
 const ExamplesSection = () => {
+  const navigate = useNavigate();
+
   const imageExamples = [
     {
       src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=400&fit=crop",
@@ -154,7 +156,7 @@ const ExamplesSection = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-12">
-          <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
+          <Button onClick={() => navigate('/ai-generation')} size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white">
             Start Creating Now
           </Button>
         </div>
