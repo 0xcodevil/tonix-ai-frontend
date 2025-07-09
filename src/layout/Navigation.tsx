@@ -4,6 +4,7 @@ import { Button } from "@/components/button";
 import { Menu, X, Home, Image, User, Upload } from "lucide-react";
 import { useAuth } from "@/contexts/AuthProvider";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuPortal, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
 import { LogOut } from "lucide-react";
 
 const Navigation = () => {
@@ -55,7 +56,10 @@ const Navigation = () => {
             </div>
             {user && <DropdownMenu>
               <DropdownMenuTrigger>
-                <img src={user.avatar} alt="" className="w-10 h-10 rounded-full border border-slate-500" />
+                <Avatar>
+                  <AvatarImage src={user.avatar} alt={user.firstName + (user.lastName ? ' ' + user.lastName : '')} />
+                  <AvatarFallback>{user.firstName.charAt(0)}{user.lastName?.charAt(0)}</AvatarFallback>
+                </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuContent>

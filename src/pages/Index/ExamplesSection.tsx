@@ -1,34 +1,29 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/card";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { Play, Image as ImageIcon, Sparkles } from "lucide-react";
+import API from "@/lib/api";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
+
+type Image = {
+  url: string;
+  prompt: string;
+  avatar: string;
+  firstName: string;
+  lastName: string;
+}
 
 const ExamplesSection = () => {
   const navigate = useNavigate();
-
-  const imageExamples = [
-    {
-      src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=400&fit=crop",
-      prompt: "Futuristic cityscape with neon lights and flying cars",
-      category: "Sci-Fi"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop",
-      prompt: "Mystical forest with glowing mushrooms and fairy lights",
-      category: "Fantasy"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=400&fit=crop",
-      prompt: "Abstract digital art with geometric patterns",
-      category: "Abstract"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=400&fit=crop",
-      prompt: "Cyberpunk warrior in neon-lit alley",
-      category: "Character"
-    }
-  ];
+  const [images, setImages] = useState<Image[]>([]);
+  
+  useEffect(() => {
+    API.get('/image/list').then(res => {
+      setImages(res.data);
+    }).catch(console.error);
+  }, []);
 
   const videoExamples = [
     {
@@ -82,24 +77,25 @@ const ExamplesSection = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {imageExamples.map((example, index) => (
+            {images.map((image, index) => (
               <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
                 <div className="relative">
                   <img 
-                    src={example.src} 
-                    alt={example.prompt}
+                    src={image.url} 
+                    alt={image.prompt}
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute top-2 right-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {example.category}
-                    </Badge>
+                    <Avatar>
+                      <AvatarImage src={image.avatar} alt={image.firstName + (image.lastName ? ' ' + image.lastName : '')} />
+                      <AvatarFallback>{image.firstName.charAt(0)}{image.lastName?.charAt(0)}</AvatarFallback>
+                    </Avatar>
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 <CardContent className="p-4">
                   <p className="text-sm text-muted-foreground line-clamp-2">
-                    "{example.prompt}"
+                    "{image.prompt}"
                   </p>
                 </CardContent>
               </Card>

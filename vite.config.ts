@@ -8,7 +8,8 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     proxy: {
-      '/api/v1': 'http://127.0.0.1:6001'
+      '/api/v1': 'http://127.0.0.1:6001',
+      '/uploads': 'http://127.0.0.1:6001',
     }
   },
   plugins: [
