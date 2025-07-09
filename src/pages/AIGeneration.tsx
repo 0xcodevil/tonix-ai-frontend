@@ -156,7 +156,7 @@ const AIGeneration = () => {
 
                       <div>
                         <label className="text-sm font-medium mb-2 block">Attach file</label>
-                        <Input type="file" onChange={handleChangeImage} accept="image/*" multiple />
+                        <Input type="file" onChange={handleChangeImage} accept="image/*" />
                       </div>
 
                       <TabsContent value="image" className="space-y-4 mt-0">
