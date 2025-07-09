@@ -1,10 +1,11 @@
 
-import { Fragment, useState } from "react";
+import { ChangeEvent, Fragment, useState } from "react";
 import API from "@/lib/api";
 import { Button, AButton } from "@/components/button";
 import { Textarea } from "@/components/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
 import { Badge } from "@/components/badge";
+import { Input } from "@/components/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
 import { Image, Video, Wand2, Download, Heart, Share2, Sparkles, Coins } from "lucide-react";
@@ -17,9 +18,19 @@ const AIGeneration = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const [ratio, setRatio] = useState("1024x1024");
+  const [images, setImages] = useState<FileList | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("image");
+
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedImages = e.target.files;
+    if (selectedImages.length > 0) {
+      setImages(selectedImages);
+    } else {
+      setImages(null);
+    }
+  }
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -36,15 +47,32 @@ const AIGeneration = () => {
 
     setIsGenerating(true);
 
-    // Simulate AI generation with placeholder images
-    API.post('/image/generate', { prompt, ratio }).then((res) => {
-      setGeneratedImages(res.data.images);
-      toast.success("AI content generated successfully! ✨");
-    }).catch((err) => {
-      toast.success("AI content generation failed.");
-    }).finally(() => {
-      setIsGenerating(false);
-    });
+    if (images.length) {
+      const formData = new FormData();
+      formData.append('prompt', prompt);
+      for (let i = 0; i < images.length; i++) {
+        formData.append('images', images[i]);
+        formData.append('images', images[i]);
+      }
+
+      API.post('/image/edit', formData).then(res => {
+        setGeneratedImages(res.data.images);
+        toast.success("AI content generated successfully! ✨");
+      }).catch(err => {
+        toast.error("AI content generation failed.");
+      }).finally(() => {
+        setIsGenerating(false);
+      });
+    } else {
+      API.post('/image/generate', { prompt, ratio }).then((res) => {
+        setGeneratedImages(res.data.images);
+        toast.success("AI content generated successfully! ✨");
+      }).catch((err) => {
+        toast.error("AI content generation failed.");
+      }).finally(() => {
+        setIsGenerating(false);
+      });
+    }
   };
 
   const handleMintNFT = (imageUrl: string) => {
@@ -127,6 +155,11 @@ const AIGeneration = () => {
                           className="resize-none"
                           rows={4}
                         />
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Attach file</label>
+                        <Input type="file" onChange={handleChangeImage} accept="image/*" multiple />
                       </div>
 
                       <TabsContent value="image" className="space-y-4 mt-0">

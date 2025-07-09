@@ -52,7 +52,7 @@ const Upload = () => {
 
     const formData = new FormData();
     formData.append('prompt', prompt);
-    formData.append('file', image);
+    formData.append('image', image);
 
     setIsUploading(true);
 
