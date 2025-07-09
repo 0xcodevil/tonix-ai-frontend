@@ -18,17 +18,17 @@ const AIGeneration = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const [ratio, setRatio] = useState("1024x1024");
-  const [images, setImages] = useState<FileList | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("image");
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedImages = e.target.files;
-    if (selectedImages.length > 0) {
-      setImages(selectedImages);
+    const selectedImage = e.target.files?.[0];
+    if (selectedImage && selectedImage.type.startsWith('image/')) {
+      setImage(selectedImage);
     } else {
-      setImages(null);
+      setImage(null);
     }
   }
 
@@ -47,13 +47,10 @@ const AIGeneration = () => {
 
     setIsGenerating(true);
 
-    if (images.length) {
+    if (image) {
       const formData = new FormData();
       formData.append('prompt', prompt);
-      for (let i = 0; i < images.length; i++) {
-        formData.append('images', images[i]);
-        formData.append('images', images[i]);
-      }
+      formData.append('image', image);
 
       API.post('/image/edit', formData).then(res => {
         setGeneratedImages(res.data.images);
