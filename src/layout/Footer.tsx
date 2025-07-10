@@ -43,10 +43,10 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Resources</h3>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="https://docs.google.com/document/d/1urCXwSK891xCoX3ft-N8i__XhO3czHJc8yH2mL5KKes/edit?tab=t.0" target="_blank" className="hover:text-tonix-cyan transition-colors">Whitepaper</a></li>
-              <li><a href="#" className="hover:text-tonix-cyan transition-colors">Documentation</a></li>
-              <li><a href="#" className="hover:text-tonix-cyan transition-colors">Community</a></li>
-              <li><a href="#" className="hover:text-tonix-cyan transition-colors">Support</a></li>
+              <li><a href="https://tonixai.gitbook.io/tonixai-docs/" target="_blank" className="hover:text-tonix-cyan transition-colors">Whitepaper</a></li>
+              <li><a href="https://tonixai.gitbook.io/tonixai-docs/" className="hover:text-tonix-cyan transition-colors">Documentation</a></li>
+              <li><a href="https://t.me/tonixaiOfficial" className="hover:text-tonix-cyan transition-colors">Community</a></li>
+              <li><a href="https://t.me/tonixaiOfficial" className="hover:text-tonix-cyan transition-colors">Support</a></li>
             </ul>
           </div>
         </div>
@@ -58,7 +58,7 @@ const Footer = () => {
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Privacy Policy</a>
             <a href="#" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Terms of Service</a>
-            <a href="#" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Legal Disclaimer</a>
+            <a href="https://tonixai.gitbook.io/tonixai-docs/legal-disclaimer" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Legal Disclaimer</a>
           </div>
         </div>
       </div>
