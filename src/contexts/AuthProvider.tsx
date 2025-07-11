@@ -8,9 +8,10 @@ type User = {
   email?: string;
   telegramId?: string;
   avatar: string;
+  coin: number;
+  isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
-  coin: number;
 } | null;
 
 const AuthContext = createContext<{

@@ -6,7 +6,7 @@ import { Textarea } from "@/components/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
 import { Badge } from "@/components/badge";
 import { Input } from "@/components/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/select";
 import { Image, Video, Wand2, Download, Heart, Share2, Sparkles, Coins } from "lucide-react";
 import { toast } from "sonner";
@@ -130,7 +130,7 @@ const AIGeneration = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <Tabs value={activeTab}>
+                  {/* <Tabs value={activeTab}>
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="image" className="flex items-center">
                         <Image className="w-4 h-4 mr-2" />
@@ -140,11 +140,11 @@ const AIGeneration = () => {
                         <Video className="w-4 h-4 mr-2" />
                         Video
                       </TabsTrigger>
-                    </TabsList>
+                    </TabsList> */}
 
                     <div className="space-y-4 mt-6">
                       <div>
-                        <label className="text-sm font-medium mb-2 block">Prompt</label>
+                        <label className="text-sm font-medium mb-2 block">Prompt *</label>
                         <Textarea
                           placeholder="Describe what you want to create... (e.g., 'A futuristic city with flying cars at sunset')"
                           value={prompt}
@@ -155,11 +155,11 @@ const AIGeneration = () => {
                       </div>
 
                       <div>
-                        <label className="text-sm font-medium mb-2 block">Attach file</label>
+                        <label className="text-sm font-medium mb-2 block">Image reference (Optional)</label>
                         <Input type="file" onChange={handleChangeImage} accept="image/*" />
                       </div>
 
-                      <TabsContent value="image" className="space-y-4 mt-0">
+                      {/* <TabsContent value="image" className="space-y-4 mt-0"> */}
                         <div>
                           <label className="text-sm font-medium mb-2 block">Style</label>
                           <Select defaultValue="photorealistic">
@@ -190,9 +190,9 @@ const AIGeneration = () => {
                             </SelectContent>
                           </Select>
                         </div>
-                      </TabsContent>
+                      {/* </TabsContent> */}
 
-                      <TabsContent value="video" className="space-y-4 mt-0">
+                      {/* <TabsContent value="video" className="space-y-4 mt-0">
                         <div>
                           <label className="text-sm font-medium mb-2 block">Duration</label>
                           <Select defaultValue="3s">
@@ -220,7 +220,7 @@ const AIGeneration = () => {
                             </SelectContent>
                           </Select>
                         </div>
-                      </TabsContent>
+                      </TabsContent> */}
 
                       <div className="pt-4 border-t border-border">
                         <div className="flex items-center justify-between mb-2">
@@ -248,7 +248,7 @@ const AIGeneration = () => {
                         </Button>
                       </div>
                     </div>
-                  </Tabs>
+                  {/* </Tabs> */}
                 </CardContent>
               </Card>
             </div>

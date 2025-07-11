@@ -77,7 +77,7 @@ const VestingSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-background to-muted/20">
+    <section id="vesting" className="py-24 bg-gradient-to-b from-background to-muted/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-space font-bold mb-6 text-white">

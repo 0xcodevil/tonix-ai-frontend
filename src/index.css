@@ -57,6 +57,10 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #0088cc, #00d4ff, #6366f1);
   -webkit-background-clip: text;

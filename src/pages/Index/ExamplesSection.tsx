@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent } from "@/components/card";
+import { toast } from "sonner";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
-import { Play, Image as ImageIcon, Sparkles } from "lucide-react";
-import API from "@/lib/api";
+import { Card, CardContent } from "@/components/card";
+import { Dialog, DialogTrigger, DialogPortal, DialogOverlay, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@/components/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
+import API from "@/lib/api";
+import { useAuth } from "@/contexts/AuthProvider";
+import { Play, Image as ImageIcon, Sparkles, TrashIcon } from "lucide-react";
 
 type Image = {
+  id: string;
   url: string;
   prompt: string;
   avatar: string;
@@ -16,14 +20,26 @@ type Image = {
 }
 
 const ExamplesSection = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [images, setImages] = useState<Image[]>([]);
-  
-  useEffect(() => {
+
+  const refresh = () => {
     API.get('/image/list').then(res => {
       setImages(res.data);
     }).catch(console.error);
-  }, []);
+  }
+
+  useEffect(refresh, []);
+
+  const deleteImage = (id: string) => {
+    API.post('/image/delete', { id }).then(() => {
+      toast.success('Deleted successfully');
+      refresh();
+    }).catch(err => {
+      toast.error(err.message);
+    });
+  }
 
   const videoExamples = [
     {
@@ -59,7 +75,7 @@ const ExamplesSection = () => {
             <span className="gradient-text">TONIXAI</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Explore stunning AI-generated images and videos created by our community. 
+            Explore stunning AI-generated images and videos created by our community.
             Get inspired and create your own masterpieces.
           </p>
         </div>
@@ -75,13 +91,13 @@ const ExamplesSection = () => {
               View All Images
             </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {images.map((image, index) => (
               <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
                 <div className="relative">
-                  <img 
-                    src={image.url} 
+                  <img
+                    src={image.url}
                     alt={image.prompt}
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                   />
@@ -92,6 +108,21 @@ const ExamplesSection = () => {
                     </Avatar>
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {user && user.isAdmin && <Dialog>
+                    <DialogTrigger>
+                      <TrashIcon color="red" className="absolute top-2 left-2 cursor-pointer" />
+                    </DialogTrigger>
+                    <DialogPortal>
+                      <DialogOverlay />
+                      <DialogContent>
+                        <DialogTitle>Delete Item</DialogTitle>
+                        <DialogDescription>Are you sure want to delete?</DialogDescription>
+                        <DialogClose asChild>
+                          <Button variant="destructive" onClick={() => deleteImage(image.id)}>Delete</Button>
+                        </DialogClose>
+                      </DialogContent>
+                    </DialogPortal>
+                  </Dialog>}
                 </div>
                 <CardContent className="p-4">
                   <p className="text-sm text-muted-foreground line-clamp-2">
@@ -114,13 +145,13 @@ const ExamplesSection = () => {
               View All Videos
             </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {videoExamples.map((example, index) => (
               <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
                 <div className="relative">
-                  <img 
-                    src={example.thumbnail} 
+                  <img
+                    src={example.thumbnail}
                     alt={example.prompt}
                     className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
                   />
