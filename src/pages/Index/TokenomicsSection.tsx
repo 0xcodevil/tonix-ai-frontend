@@ -45,7 +45,7 @@ const TokenomicsSection = () => {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             A sustainable economic model designed to reward participation, fuel growth, and ensure long-term platform success.
           </p>
-          
+
           <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-tonix-blue/10 to-tonix-cyan/10 border border-tonix-blue/20">
             <span className="text-2xl font-bold text-tonix-blue mr-2">20,000,000,000</span>
             <span className="text-lg text-gray-300">Total Supply</span>
@@ -54,22 +54,22 @@ const TokenomicsSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Token Allocation */}
-          <Card className="h-fit bg-slate-800 border-gray-600">
-            <CardHeader>
-              <CardTitle className="text-2xl font-space text-white">Token Distribution</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {allocations.map((allocation, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-gray-300">{allocation.label}</span>
-                    <span className="text-sm font-bold text-white">{allocation.percentage}%</span>
+          <div className="space-y-6">
+            <h3 className="text-2xl font-space font-bold mb-6 text-white">Token Distribution</h3>
+            <Card className="h-fit bg-slate-800 border-gray-600">
+              <CardContent className="space-y-6 pt-6">
+                {allocations.map((allocation, index) => (
+                  <div key={index} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-300">{allocation.label}</span>
+                      <span className="text-sm font-bold text-white">{allocation.percentage}%</span>
+                    </div>
+                    <Progress value={allocation.percentage} className="h-3" />
                   </div>
-                  <Progress value={allocation.percentage} className="h-3" />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Token Utility */}
           <div className="space-y-6">

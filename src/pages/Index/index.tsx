@@ -4,6 +4,7 @@ import FeaturesSection from "./FeaturesSection";
 import ExamplesSection from "./ExamplesSection";
 import TokenomicsSection from "./TokenomicsSection";
 import RoadmapSection from "./RoadmapSection";
+import VestingSection from "./VestingSection";
 
 const Index = () => {
   return (
@@ -13,6 +14,7 @@ const Index = () => {
       <ExamplesSection />
       <TokenomicsSection />
       <RoadmapSection />
+      <VestingSection />
     </Fragment>
   );
 };
