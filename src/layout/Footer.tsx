@@ -45,8 +45,8 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-300">
               <li><a href="https://tonixai.gitbook.io/tonixai-docs/" target="_blank" className="hover:text-tonix-cyan transition-colors">Whitepaper</a></li>
               <li><a href="/#vesting" className="hover:text-tonix-cyan transition-colors">Vesting</a></li>
-              <li><a href="https://t.me/tonixaiOfficial" className="hover:text-tonix-cyan transition-colors">Community</a></li>
-              <li><a href="https://t.me/tonixaiOfficial" className="hover:text-tonix-cyan transition-colors">Support</a></li>
+              <li><a href="/#team" className="hover:text-tonix-cyan transition-colors">Team</a></li>
+              <li><a href="/#team" className="hover:text-tonix-cyan transition-colors">Partners & Investors</a></li>
             </ul>
           </div>
         </div>

@@ -5,6 +5,7 @@ import ExamplesSection from "./ExamplesSection";
 import TokenomicsSection from "./TokenomicsSection";
 import RoadmapSection from "./RoadmapSection";
 import VestingSection from "./VestingSection";
+import TeamSection from "./TeamSection";
 
 const Index = () => {
   return (
@@ -15,6 +16,7 @@ const Index = () => {
       <TokenomicsSection />
       <RoadmapSection />
       <VestingSection />
+      <TeamSection />
     </Fragment>
   );
 };
