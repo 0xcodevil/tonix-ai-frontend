@@ -13,6 +13,12 @@ import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
+type AIImage = {
+  id: string;
+  prompt: string;
+  url: string;
+}
+
 const AIGeneration = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -20,7 +26,7 @@ const AIGeneration = () => {
   const [ratio, setRatio] = useState("1024x1024");
   const [image, setImage] = useState<File | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [generatedImages, setGeneratedImages] = useState<AIImage[]>([]);
   const [activeTab, setActiveTab] = useState("image");
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,8 +78,12 @@ const AIGeneration = () => {
     }
   };
 
-  const handleMintNFT = (imageUrl: string) => {
-    toast.success("NFT minting initiated! This will be available after connecting your TON wallet.");
+  const shareImage = (id: string) => {
+    API.post('/image/publish', { id, isPublic: true }).then(_res => {
+      toast.success("Image is published successfully.");
+    }).catch((err) => {
+      toast.error("Image publish failed.");
+    });
   };
 
   return (
@@ -281,46 +291,36 @@ const AIGeneration = () => {
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {generatedImages.map((imageUrl, index) => (
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+                      {generatedImages.map((image, index) => (
                         <Card key={index} className="group overflow-hidden">
                           <div className="relative">
                             <img
-                              src={imageUrl}
+                              src={image.url}
                               alt={`Generated content ${index + 1}`}
-                              className="w-full h-64 object-cover transition-transform group-hover:scale-105"
+                              className="w-full object-cover transition-transform"
                             />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors">
-                              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button size="sm" variant="secondary" className="mr-2">
-                                  <Heart className="w-4 h-4" />
-                                </Button>
-                                <Button size="sm" variant="secondary">
-                                  <Share2 className="w-4 h-4" />
-                                </Button>
-                              </div>
-                            </div>
                           </div>
                           <CardContent className="p-4">
                             <div className="flex items-center justify-between">
                               <div>
                                 <Badge variant="outline" className="mb-2">
-                                  {prompt.substring(0, 25)}...
+                                  {image.prompt.substring(0, 25)}...
                                 </Badge>
                                 <p className="text-sm text-muted-foreground">
                                   Generated {new Date().toLocaleDateString()}
                                 </p>
                               </div>
                               <div className="flex space-x-2">
-                                <AButton size="sm" variant="outline" href={imageUrl} download>
+                                <AButton size="sm" variant="outline" href={image.url} download>
                                   <Download className="w-4 h-4" />
                                 </AButton>
                                 <Button
                                   size="sm"
                                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white"
-                                  onClick={() => handleMintNFT(imageUrl)}
+                                  onClick={() => shareImage(image.id)}
                                 >
-                                  Mint NFT
+                                  <Share2 className="w-4 h-4" /> Publish
                                 </Button>
                               </div>
                             </div>
