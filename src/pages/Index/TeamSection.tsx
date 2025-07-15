@@ -3,44 +3,36 @@ import { Card, CardContent } from "@/components/card";
 
 const TeamSection = () => {
   const members = [
-    { avatar: "https://avatar.iran.liara.run/public/47", name: "Nguyen Van Kien", title: "CTO - ATB Tech" },
-    { avatar: "https://avatar.iran.liara.run/public/38", name: "Phạm Ngọc Tuân", title: "CMO - ATB Tech" },
-    { avatar: "https://avatar.iran.liara.run/public/24", name: "Sunny Wong", title: "CEO - Merlion Software Lte" },
+    { avatar: "/imgs/team/1.png", name: "Nguyen Van Kien", title: "CTO - ATB Tech" },
+    { avatar: "/imgs/team/2.png", name: "Phạm Ngọc Tuân", title: "CMO - ATB Tech" },
+    { avatar: "/imgs/team/3.png", name: "Sunny Wong", title: "CEO - Merlion Software Lte" },
   ];
 
   const partners = [
     {
-      icon: "/imgs/partners/cointpoint.png",
-      title: "CointPoint",
+      icon: "/imgs/partners/openai.png",
+      title: "OpenAI",
     },
     {
-      icon: "/imgs/partners/puppetapp.png",
-      title: "PuppetApp",
+      icon: "/imgs/partners/kling.png",
+      title: "KlingAI",
     },
     {
-      icon: "/imgs/partners/esimapp.jpg",
-      title: "ESIMApp",
+      icon: "/imgs/partners/wrtn.jpg",
+      title: "WRTN Technologies",
     },
     {
-      icon: "/imgs/partners/oxyblegame.jpg",
-      title: "OxybleGame",
+      icon: "/imgs/partners/midjourney.png",
+      title: "Midjourney",
     },
     {
-      icon: "/imgs/partners/shroomy.jpg",
-      title: "ShroomyGame",
+      icon: "/imgs/partners/nouvo.png",
+      title: "NouvoAI",
     },
     {
-      icon: "/imgs/partners/primeseed.png",
-      title: "PrimeSeed Ventures",
+      icon: "/imgs/partners/heygen.jpg",
+      title: "HeyGen",
     },
-    {
-      icon: "/imgs/partners/apexvc.png",
-      title: "Apexvc",
-    },
-    {
-      icon: "/imgs/partners/wenfund.jpg",
-      title: "Wenfund",
-    }
   ];
 
   return (
@@ -62,9 +54,9 @@ const TeamSection = () => {
             <Card className="h-fit bg-slate-800 border-gray-600">
               <CardContent className="space-y-6 pt-6">
                 {members.map((member, index) => (
-                  <div className="flex items-center gap-4">
+                  <div key={index} className="flex items-center gap-4">
                     <img src={member.avatar} className="w-16 h-16 rounded-full" alt="" />
-                    <div key={index} className="space-y-2">
+                    <div className="space-y-2">
                       <div className="text-sm font-medium text-gray-300">{member.name}</div>
                       <div className="text-sm font-bold text-white">{member.title}</div>
                     </div>
