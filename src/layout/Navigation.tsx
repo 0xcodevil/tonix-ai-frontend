@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/button";
-import { Menu, X, Home, Image, User, Upload } from "lucide-react";
+import { Menu, X, Home, Image } from "lucide-react";
 import { useAuth } from "@/contexts/AuthProvider";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuPortal, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
@@ -64,9 +64,9 @@ const Navigation = () => {
               <DropdownMenuPortal>
                 <DropdownMenuContent>
                   <DropdownMenuItem disabled>{user.firstName + (user.lastName ? ' ' + user.lastName : '')}</DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span className="pr-10">Profile</span>
-                    <User size={16} />
+                  <DropdownMenuItem onClick={() => navigate('/my-images')}>
+                    <span className="pr-10">My Images</span>
+                    <Image size={16} />
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout}>

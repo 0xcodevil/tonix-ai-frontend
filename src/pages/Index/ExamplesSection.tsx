@@ -82,12 +82,12 @@ const ExamplesSection = () => {
 
         {/* AI Images Section */}
         <div className="mb-16">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-2">
             <h3 className="text-2xl md:text-3xl font-bold flex items-center">
               <ImageIcon className="w-8 h-8 mr-3 text-primary" />
               AI Generated Images
             </h3>
-            <Button variant="outline" className="hidden md:flex">
+            <Button onClick={() => navigate('/gallery')} variant="outline">
               View All Images
             </Button>
           </div>
