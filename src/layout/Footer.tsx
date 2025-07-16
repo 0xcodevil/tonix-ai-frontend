@@ -56,9 +56,9 @@ const Footer = () => {
             © 2025 TONIXAI. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Terms of Service</a>
-            <a href="https://tonixai.gitbook.io/tonixai-docs/legal-disclaimer" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Legal Disclaimer</a>
+            <a href="https://tonixai.gitbook.io/tonixai-docs/privacy-policy" target="_blank" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Privacy Policy</a>
+            <a href="https://tonixai.gitbook.io/tonixai-docs/terms-of-service" target="_blank" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Terms of Service</a>
+            <a href="https://tonixai.gitbook.io/tonixai-docs/legal-disclaimer-1" target="_blank" className="text-gray-400 hover:text-tonix-cyan text-sm transition-colors">Legal Disclaimer</a>
           </div>
         </div>
       </div>
