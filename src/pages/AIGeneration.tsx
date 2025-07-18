@@ -1,5 +1,5 @@
 
-import { ChangeEvent, Fragment, useState } from "react";
+import { ChangeEvent, Fragment, useState, useEffect } from "react";
 import API from "@/lib/api";
 import { Button, AButton } from "@/components/button";
 import { Textarea } from "@/components/textarea";
@@ -28,6 +28,8 @@ const AIGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<AIImage[]>([]);
   const [activeTab, setActiveTab] = useState("image");
+  const [current, setCurrent] = useState(0);
+  const [limit, setLimit] = useState(0);
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedImage = e.target.files?.[0];
@@ -39,17 +41,13 @@ const AIGeneration = () => {
   }
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) {
-      toast.error("Please enter a prompt to generate content");
-      return;
-    }
+    if (current <= 0) return toast.error("Image generation limited for today.");
 
-    if (!user) {
-      toast.error("Please login to generate", {
-        action: <span onClick={() => navigate('/auth')} className="cursor-pointer text-primary">Login</span>
-      });
-      return;
-    }
+    if (!prompt.trim()) return toast.error("Please enter a prompt to generate content");
+
+    if (!user) return toast.error("Please login to generate", {
+      action: <span onClick={() => navigate('/auth')} className="cursor-pointer text-primary">Login</span>
+    });
 
     setIsGenerating(true);
 
@@ -65,6 +63,7 @@ const AIGeneration = () => {
         toast.error("AI content generation failed.");
       }).finally(() => {
         setIsGenerating(false);
+        fetchBalance();
       });
     } else {
       API.post('/image/generate', { prompt, ratio }).then((res) => {
@@ -74,6 +73,7 @@ const AIGeneration = () => {
         toast.error("AI content generation failed.");
       }).finally(() => {
         setIsGenerating(false);
+        fetchBalance();
       });
     }
   };
@@ -85,6 +85,15 @@ const AIGeneration = () => {
       toast.error("Image publish failed.");
     });
   };
+
+  const fetchBalance = () => {
+    API.get('/image/status').then(res => {
+      setCurrent(res.data.current);
+      setLimit(res.data.limit);
+    }).catch(console.error);
+  }
+
+  useEffect(fetchBalance, []);
 
   return (
     <Fragment>
@@ -109,20 +118,36 @@ const AIGeneration = () => {
           </div>
 
           {/* Points Display */}
-          {user && <div className="flex justify-center mb-8">
-            <Card className="bg-gradient-to-r from-tonix-blue/10 to-tonix-cyan/10 border-tonix-blue/20">
-              <CardContent className="flex items-center space-x-4 py-4 px-6">
-                <Coins className="w-6 h-6 text-tonix-blue" />
-                <div>
-                  <div className="text-2xl font-bold text-tonix-blue">{user.coin.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Available Points</div>
-                </div>
-                <Badge variant="outline" className="border-tonix-cyan text-tonix-cyan">
-                  Earn more in Telegram
-                </Badge>
-              </CardContent>
-            </Card>
-          </div>}
+          <div className="flex justify-center items-center gap-4 mb-8">
+            {user && <div className="flex justify-center">
+              <Card className="bg-gradient-to-r from-tonix-blue/10 to-tonix-cyan/10 border-tonix-blue/20">
+                <CardContent className="flex items-center space-x-4 py-4 px-6">
+                  <Coins className="w-6 h-6 text-tonix-blue" />
+                  <div>
+                    <div className="text-2xl font-bold text-tonix-blue">{current}/{limit}</div>
+                    <div className="text-sm text-muted-foreground">Free Points</div>
+                  </div>
+                  <Badge variant="outline" className="border-tonix-cyan text-tonix-cyan">
+                    Earn 4 Everyday
+                  </Badge>
+                </CardContent>
+              </Card>
+            </div>}
+            {user && <div className="flex justify-center">
+              <Card className="bg-gradient-to-r from-tonix-blue/10 to-tonix-cyan/10 border-tonix-blue/20">
+                <CardContent className="flex items-center space-x-4 py-4 px-6">
+                  <Coins className="w-6 h-6 text-tonix-blue" />
+                  <div>
+                    <div className="text-2xl font-bold text-tonix-blue">{user.coin.toLocaleString()}</div>
+                    <div className="text-sm text-muted-foreground">Available Points</div>
+                  </div>
+                  <Badge variant="outline" className="border-tonix-cyan text-tonix-cyan">
+                    Earn more in Telegram
+                  </Badge>
+                </CardContent>
+              </Card>
+            </div>}
+          </div>
         </div>
       </section>
 
@@ -152,57 +177,57 @@ const AIGeneration = () => {
                       </TabsTrigger>
                     </TabsList> */}
 
-                    <div className="space-y-4 mt-6">
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">Prompt *</label>
-                        <Textarea
-                          placeholder="Describe what you want to create... (e.g., 'A futuristic city with flying cars at sunset')"
-                          value={prompt}
-                          onChange={(e) => setPrompt(e.target.value)}
-                          className="resize-none"
-                          rows={4}
-                        />
-                      </div>
+                  <div className="space-y-4 mt-6">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Prompt *</label>
+                      <Textarea
+                        placeholder="Describe what you want to create... (e.g., 'A futuristic city with flying cars at sunset')"
+                        value={prompt}
+                        onChange={(e) => setPrompt(e.target.value)}
+                        className="resize-none"
+                        rows={4}
+                      />
+                    </div>
 
-                      <div>
-                        <label className="text-sm font-medium mb-2 block">Image reference (Optional)</label>
-                        <Input type="file" onChange={handleChangeImage} accept="image/png" />
-                      </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Image reference (Optional)</label>
+                      <Input type="file" onChange={handleChangeImage} accept="image/png" />
+                    </div>
 
-                      {/* <TabsContent value="image" className="space-y-4 mt-0"> */}
-                        <div>
-                          <label className="text-sm font-medium mb-2 block">Style</label>
-                          <Select defaultValue="photorealistic">
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent className="bg-background border border-border">
-                              <SelectItem value="photorealistic">Photorealistic</SelectItem>
-                              <SelectItem value="artistic">Artistic</SelectItem>
-                              <SelectItem value="anime">Anime</SelectItem>
-                              <SelectItem value="cartoon">Cartoon</SelectItem>
-                              <SelectItem value="oil-painting">Oil Painting</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
+                    {/* <TabsContent value="image" className="space-y-4 mt-0"> */}
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Style</label>
+                      <Select defaultValue="photorealistic">
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border border-border">
+                          <SelectItem value="photorealistic">Photorealistic</SelectItem>
+                          <SelectItem value="artistic">Artistic</SelectItem>
+                          <SelectItem value="anime">Anime</SelectItem>
+                          <SelectItem value="cartoon">Cartoon</SelectItem>
+                          <SelectItem value="oil-painting">Oil Painting</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                        <div>
-                          <label className="text-sm font-medium mb-2 block">Aspect Ratio</label>
-                          <Select value={ratio} onValueChange={setRatio}>
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent className="bg-background border border-border">
-                              <SelectItem value="1024x1024">Square (1:1)</SelectItem>
-                              <SelectItem value="1536x1024">Landscape (16:9)</SelectItem>
-                              <SelectItem value="1024x1536">Portrait (9:16)</SelectItem>
-                              <SelectItem value="auto">Classic (4:3)</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      {/* </TabsContent> */}
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Aspect Ratio</label>
+                      <Select value={ratio} onValueChange={setRatio}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-background border border-border">
+                          <SelectItem value="1024x1024">Square (1:1)</SelectItem>
+                          <SelectItem value="1536x1024">Landscape (16:9)</SelectItem>
+                          <SelectItem value="1024x1536">Portrait (9:16)</SelectItem>
+                          <SelectItem value="auto">Classic (4:3)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    {/* </TabsContent> */}
 
-                      {/* <TabsContent value="video" className="space-y-4 mt-0">
+                    {/* <TabsContent value="video" className="space-y-4 mt-0">
                         <div>
                           <label className="text-sm font-medium mb-2 block">Duration</label>
                           <Select defaultValue="3s">
@@ -232,32 +257,32 @@ const AIGeneration = () => {
                         </div>
                       </TabsContent> */}
 
-                      <div className="pt-4 border-t border-border">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium">Cost</span>
-                          <span className="text-sm text-tonix-blue font-semibold">
-                            {activeTab === "image" ? "50 points" : "200 points"}
-                          </span>
-                        </div>
-                        <Button
-                          onClick={handleGenerate}
-                          disabled={isGenerating || !prompt.trim()}
-                          className="w-full bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white"
-                        >
-                          {isGenerating ? (
-                            <>
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                              Generating...
-                            </>
-                          ) : (
-                            <>
-                              <Wand2 className="w-4 h-4 mr-2" />
-                              Generate {activeTab === "image" ? "Image" : "Video"}
-                            </>
-                          )}
-                        </Button>
+                    <div className="pt-4 border-t border-border">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium">Cost</span>
+                        <span className="text-sm text-tonix-blue font-semibold">
+                          {activeTab === "image" ? "50 points" : "200 points"}
+                        </span>
                       </div>
+                      <Button
+                        onClick={handleGenerate}
+                        disabled={isGenerating || !prompt.trim()}
+                        className="w-full bg-gradient-to-r from-tonix-blue to-tonix-cyan hover:from-tonix-cyan hover:to-tonix-blue text-white"
+                      >
+                        {isGenerating ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Generating...
+                          </>
+                        ) : (
+                          <>
+                            <Wand2 className="w-4 h-4 mr-2" />
+                            Generate {activeTab === "image" ? "Image" : "Video"}
+                          </>
+                        )}
+                      </Button>
                     </div>
+                  </div>
                   {/* </Tabs> */}
                 </CardContent>
               </Card>
